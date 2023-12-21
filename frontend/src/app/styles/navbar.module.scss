@@ -1,0 +1,20 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #333;
+    color: white;
+
+    .logo a {
+        color: white;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .links a {
+        margin-left: 20px;
+        color: white;
+        text-decoration: none;
+    }
+}

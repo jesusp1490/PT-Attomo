@@ -12,17 +12,21 @@ const app = express();
 
 const allowedOrigins = ['http://127.0.0.1:5000'];
 
-const corsOptions = {
-    origin: function (origin, callback) {
-        if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
-            callback(null, true);
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-};
+app.use(cors({
+    origin: 'http://localhost:3000',
+    methods: ['GET', 'POST', 'PUT', 'DELETE'], 
+    credentials: true, 
+}));
 
-app.use(cors(corsOptions));
+app.get('/testemail/:email', async (req, res) => {
+    try {
+        const email = req.params.email;
+        const user = await validateEmailDB(email);
+        res.json(user);
+    } catch (error) {
+        res.status(500).send(error.message);
+    }
+});
 
 
 const cloudinary = require('cloudinary').v2;

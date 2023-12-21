@@ -8,11 +8,14 @@ const validatePassword = (pass) => {
 
 const validateEmailDB = async (emailUser) => {
     try {
-        const validateEmail = await User.findOne({ email: emailUser })
+        console.log("Buscando en la base de datos el email:", emailUser);
+        const validateEmail = await User.findOne({ email: emailUser });
+        console.log("Resultado de la búsqueda:", validateEmail);
         return validateEmail;
     } catch (error) {
-        console.log(error)
+        console.log("Error al buscar el email:", error);
+        throw error; 
     }
-
 }
+
 module.exports = { validateEmailDB, validatePassword }

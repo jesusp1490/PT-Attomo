@@ -30,21 +30,26 @@ const loginUser = async (req, res) => {
     try {
         const userInfo = req.body;
         const userDB = await validateEmailDB(userInfo.email);
+
         if (!userDB) {
-            return res.json({ success: false, message: "Email no existe" })
+            return res.json({ success: false, message: "Email no existe" });
         }
-        if (!bycrypt.compareSync(userInfo.password, userDB.password)) {
-            return res.json({ success: false, message: "La contraseña no coincide" })
-        }
-        //generar el token
-        const token = generateToken(userDB._id, userDB.email);
-        return res.json({ success: true, message: "login realizado", token: token, userInfo: userDB })
 
+        // Comprueba si las contraseñas coinciden
+        if (bcrypt.compareSync(userInfo.password, userDB.password)) {
+            console.log("Contraseña correcta, usuario autenticado.");
+            const token = generateToken(userDB._id, userDB.email);
+            return res.json({ success: true, message: "Login exitoso", token: token, userInfo: userDB });
+        } else {
+            console.log("Contraseña incorrecta.");
+            return res.json({ success: false, message: "La contraseña no coincide" });
+        }
     } catch (error) {
-
+        console.log("Error en el controlador de login:", error);
+        res.status(500).json({ message: "Error interno del servidor" });
     }
+};
 
-}
 const profileUser = async (req, res) => {
     try {
         return res.status(200).json(req.userProfile)

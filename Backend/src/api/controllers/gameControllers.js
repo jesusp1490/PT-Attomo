@@ -1,4 +1,5 @@
 const Game = require('../models/Games');
+const User = require('../models/User');
 
 //GET 
 const getGames = async (req, res) => {
@@ -100,5 +101,32 @@ const getGameByCategory = async (req, res) => {
     }
 }
 
+const voteForGame = async (req, res) => {
+    const { userId, gameId } = req.body;
 
-module.exports = { getGames, newGame, deleteGame, updateGame, getGameByName, getGameById, getGameByCategory };
+    try {
+        const user = await User.findById(userId);
+        const game = await Game.findById(gameId);
+
+        if (!user || !game) {
+            return res.status(404).json({ message: "Usuario o juego no encontrado" });
+        }
+
+        if (user.votedGames.includes(gameId) || user.votedGames.length >= 5) {
+            return res.status(400).json({ message: "No se puede votar por este juego" });
+        }
+        
+        user.votedGames.push(gameId);
+        game.votes += 1;
+
+        await user.save();
+        await game.save();
+
+        res.json({ message: "Voto registrado con éxito", game });
+    } catch (error) {
+        res.status(500).json({ message: "Error al procesar la votación" });
+    }
+};
+
+
+module.exports = { getGames, newGame, deleteGame, updateGame, getGameByName, getGameById, getGameByCategory, voteForGame };
