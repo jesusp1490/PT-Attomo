@@ -1,0 +1,94 @@
+/* GameForm.module.scss */
+
+.gameFormContainer {
+    background: linear-gradient(135deg, #37306B, #66347F);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-position: center;
+    background-size: cover;
+    font-family: 'Montserrat', sans-serif;
+    color: aliceblue;
+}
+
+.gameForm {
+    width: 500px;
+    height: 600px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #66347F, #37306B);
+}
+
+.gameFormContainer:hover .gameForm {
+    border: 2px solid #7f5395;
+}
+
+.gameForm h1 {
+    font-size: 2em;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.gameInput {
+    width: 300px;
+    height: 40px;
+    margin: 10px 0;
+    border-bottom: 1px solid red;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    background-color: transparent;
+    position: relative;
+    font-size: 1rem;
+    color: whitesmoke;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.gameInput:focus {
+    border-color: transparent;
+}
+
+.gameTextarea {
+    width: 300px;
+    height: 120px;
+    margin: 10px 0;
+    border-bottom: 1px solid red;
+    border-top: none;
+    border-right: none;
+    border-left: none;
+    background-color: transparent;
+    position: relative;
+    font-size: 1rem;
+    color: whitesmoke;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.gameTextarea:focus {
+    border-color: transparent;
+}
+
+.gameButton {
+    width: 300px;
+    height: 50px;
+    border: none;
+    border-radius: 40px;
+    background-color: #66347F;
+    outline: none;
+    cursor: pointer;
+    font-size: 1.3em;
+    font-weight: 700;
+    color: white;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.gameButton:hover {
+    background-color: #7f5395;
+}

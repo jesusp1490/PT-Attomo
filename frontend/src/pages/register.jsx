@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
+import styles from '../app/styles/register.module.scss'; 
 
 const Register = () => {
     const [userData, setUserData] = useState({
@@ -27,16 +28,60 @@ const Register = () => {
     };
 
     return (
-        <div>
-            <h1>Registrarse</h1>
-            <form onSubmit={handleSubmit}>
-                <input name="nombre" type="text" value={userData.nombre} onChange={handleChange} required placeholder="Nombre" />
-                <input name="apellido" type="text" value={userData.apellido} onChange={handleChange} required placeholder="Apellido" />
-                <input name="username" type="text" value={userData.username} onChange={handleChange} required placeholder="Nombre de usuario" />
-                <input name="email" type="email" value={userData.email} onChange={handleChange} required placeholder="Email" />
-                <input name="password" type="password" value={userData.password} onChange={handleChange} required placeholder="Contraseña" />
-                <button type="submit">Registrarse</button>
-            </form>
+        <div className={styles.registerContainer}>
+            <div className={styles.formCard}>
+                <h1>¡Regístrate!</h1>
+                <form className={styles.registerForm} onSubmit={handleSubmit}>
+                    <input
+                        name="nombre"
+                        type="text"
+                        value={userData.nombre}
+                        onChange={handleChange}
+                        required
+                        placeholder="Nombre"
+                        className={styles.registerInput}
+                    />
+                    <input
+                        name="apellido"
+                        type="text"
+                        value={userData.apellido}
+                        onChange={handleChange}
+                        required
+                        placeholder="Apellido"
+                        className={styles.registerInput}
+                    />
+                    <input
+                        name="username"
+                        type="text"
+                        value={userData.username}
+                        onChange={handleChange}
+                        required
+                        placeholder="Nombre de usuario"
+                        className={styles.registerInput}
+                    />
+                    <input
+                        name="email"
+                        type="email"
+                        value={userData.email}
+                        onChange={handleChange}
+                        required
+                        placeholder="Email"
+                        className={styles.registerInput}
+                    />
+                    <input
+                        name="password"
+                        type="password"
+                        value={userData.password}
+                        onChange={handleChange}
+                        required
+                        placeholder="Contraseña"
+                        className={styles.registerInput}
+                    />
+                    <button type="submit" className={styles.registerButton}>
+                        Registrarse
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };

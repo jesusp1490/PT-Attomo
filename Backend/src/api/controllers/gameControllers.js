@@ -1,6 +1,8 @@
 const Game = require('../models/Games');
 const User = require('../models/User');
 
+
+const JWT_SECRET = process.env.JWT_SECRET_KEY
 //GET 
 const getGames = async (req, res) => {
     try {
@@ -115,9 +117,9 @@ const voteForGame = async (req, res) => {
         if (user.votedGames.includes(gameId) || user.votedGames.length >= 5) {
             return res.status(400).json({ message: "No se puede votar por este juego" });
         }
-        
+
         user.votedGames.push(gameId);
-        game.votes += 1;
+        game.votos += 1;
 
         await user.save();
         await game.save();

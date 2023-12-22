@@ -1,62 +1,68 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-const { validateEmailDB, validatePassword } = require("../../utils/validator");
-const { generateToken } = require("../../utils/jwt");
+const jwt = require('jsonwebtoken');
+
+const JWT_SECRET = `${process.env.JWT_SECRET_KEY}`
 
 //REGISTER
 const registerUser = async (req, res) => {
     try {
-
-        const userBody = new User(req.body)
-        const valEmail = await validateEmailDB(req.body.email)
-        if (!valEmail) {
-            if (validatePassword(req.body.password)) {
-                userBody.password = bcrypt.hashSync(userBody.password, 10)
-                const createduser = await userBody.save();
-                return res.json({ success: true, message: "Agregado con exito", data: createduser })
-            } else {
-                return res.json({ success: false, message: "La contraseña no cumple con el patron" })
-            }
-        }
-        return res.json({ success: false, message: "Email ya existe" })
-
+        const { name, surname, username, email, password } = req.body;
+        const hashedPassword = await bcrypt.hash(password, 10);
+        const newUser = new User({ name, surname, username, email, password: hashedPassword });
+        await newUser.save();
+        res.status(201).json({ message: 'Usuario registrado con éxito' });
     } catch (error) {
-
+        res.status(500).json({ message: error.message });
     }
-}
+};
 
 //LOGIN
 const loginUser = async (req, res) => {
     try {
-        const userInfo = req.body;
-        const userDB = await validateEmailDB(userInfo.email);
-
-        if (!userDB) {
-            return res.json({ success: false, message: "Email no existe" });
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+        if (!user || !await bcrypt.compare(password, user.password)) {
+            return res.status(401).json({ message: 'Credenciales inválidas' });
         }
-
-        // Comprueba si las contraseñas coinciden
-        if (bcrypt.compareSync(userInfo.password, userDB.password)) {
-            console.log("Contraseña correcta, usuario autenticado.");
-            const token = generateToken(userDB._id, userDB.email);
-            return res.json({ success: true, message: "Login exitoso", token: token, userInfo: userDB });
-        } else {
-            console.log("Contraseña incorrecta.");
-            return res.json({ success: false, message: "La contraseña no coincide" });
-        }
+        const token = jwt.sign({ userId: user._id, role: user.role }, JWT_SECRET);
+        res.status(200).json({ token });
     } catch (error) {
-        console.log("Error en el controlador de login:", error);
-        res.status(500).json({ message: "Error interno del servidor" });
+        res.status(500).json({ message: error.message });
     }
 };
 
-const profileUser = async (req, res) => {
+//PUT
+const updateUser = async (req, res) => {
     try {
-        return res.status(200).json(req.userProfile)
-    } catch (error) {
+        const { userId } = req.params;
+        const { username, email, role } = req.body;
 
+        let user = await User.findById(userId);
+        if (!user) {
+            return res.status(404).json({ message: 'Usuario no encontrado' });
+        }
+
+        if (username) user.username = username;
+        if (email) user.email = email;
+        if (role) user.role = role;
+
+        await user.save();
+        res.status(200).json({ message: 'Usuario actualizado correctamente', user });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
-}
+};
+
+
+const getUserProfile = async (req, res) => {
+    try {
+        const { password, ...userData } = req.user.toObject(); 
+        res.status(200).json(userData);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 const getByEmail = async (req, res) => {
     try {
@@ -77,6 +83,4 @@ const allUsers = async (req, res) => {
     }
 };
 
-
-
-module.exports = { getByEmail, registerUser, loginUser, profileUser, allUsers }
+module.exports = { getByEmail, registerUser, loginUser, getUserProfile, allUsers, updateUser }

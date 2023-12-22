@@ -4,8 +4,8 @@ const dotenv = require('dotenv');
 const connectDB = require('./src/utils/db');
 const gameRoutes = require('./src/api/routes/gameRoutes');
 const userRoutes = require('./src/api/routes/userRoutes');
-// const commentRoutes = require('./src/api/routes/commentRoutes');
 
+import * as dotenv from 'dotenv';
 dotenv.config();
 const cors = require('cors');
 const app = express();
@@ -57,7 +57,7 @@ mongoose.connect(process.env.MONGO_URI, {
 app.use(express.json());
 app.use('/games', gameRoutes);
 app.use('/users', userRoutes);
-// app.use('/comment', commentRoutes);
+
 
 //Manejo de errores
 app.use((req, res, next) => {

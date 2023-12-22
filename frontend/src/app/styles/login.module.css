@@ -1,0 +1,68 @@
+@charset "UTF-8";
+/* Estilos para el formulario de inicio de sesión */
+.loginContainer {
+  background: linear-gradient(135deg, #37306B, #66347F);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-position: center;
+  background-size: cover;
+}
+
+.formCard {
+  width: 500px;
+  height: 400px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border-radius: 20px;
+  background: linear-gradient(135deg, #66347F, #37306B);
+  font-family: "Montserrat", sans-serif;
+  color: aliceblue;
+}
+
+.formCard:hover {
+  border: 2px solid #7f5395;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.loginInput {
+  width: 300px;
+  height: 40px;
+  margin: 20px 0;
+  border-bottom: 2px solid #7f5395;
+  border-top: none;
+  border-right: none;
+  border-left: none;
+  background-color: transparent;
+  position: relative;
+  font-size: 1rem;
+  color: whitesmoke;
+  outline: none;
+}
+
+.loginButton {
+  width: 300px;
+  height: 50px;
+  border: none;
+  border-radius: 40px;
+  background-color: #66347F;
+  outline: none;
+  cursor: pointer;
+  font-size: 1.3em;
+  font-weight: 700;
+  color: white;
+  margin-top: 20px;
+  transition: background-color 0.3s;
+}
+
+.loginButton:hover {
+  background-color: #7f5395;
+}/*# sourceMappingURL=login.module.css.map */

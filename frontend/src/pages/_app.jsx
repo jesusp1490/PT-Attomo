@@ -1,34 +1,20 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Layout from '../app/components/layout/Layout';
-import { UserContext } from '../app/hooks/userContext';
 import '../app/styles/globals.scss';
-import jwt_decode from 'jwt-decode'; // Importa jwt-decode si vas a usarlo para decodificar el token
+import { AuthProvider } from '../app/hooks/useAuth'; 
+import Head from 'next/head';
+
 
 function MyApp({ Component, pageProps }) {
-    const [user, setUser] = useState(null);
-
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        if (token) {
-            try {
-                // Decodifica el token para obtener información del usuario
-                const decoded = jwt_decode(token);
-                setUser(decoded); // Aquí asumimos que decoded contiene la información necesaria
-                console.log("Usuario ha iniciado sesión", decoded);
-            } catch (error) {
-                console.error("Error al decodificar el token:", error);
-            }
-        } else {
-            console.log("Usuario no ha iniciado sesión");
-        }
-    }, []);
-
     return (
-        <UserContext.Provider value={{ user, setUser }}>
+        <AuthProvider> 
+            <Head>
+                <link href="https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&display=swap" rel="stylesheet" />
+            </Head>
             <Layout>
                 <Component {...pageProps} />
             </Layout>
-        </UserContext.Provider>
+        </AuthProvider>
     );
 }
 

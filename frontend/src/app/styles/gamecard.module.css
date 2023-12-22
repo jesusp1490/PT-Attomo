@@ -1,0 +1,72 @@
+@import url("https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&display=swap");
+.gameCard {
+  position: relative;
+  border-radius: 8px;
+  margin: 10px;
+  width: 300px;
+  height: 500px;
+  overflow: hidden;
+  background: rgba(176, 142, 216, 0.1);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  color: whitesmoke;
+  font-family: "Montserrat", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+.gameCard:hover .gameInfo {
+  transform: translateX(0);
+  opacity: 1;
+}
+
+.gameName {
+  font-size: 24px;
+  font-weight: bold;
+  margin: 0;
+  padding: 20px;
+}
+
+.gameImage {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  transition: filter 0.3s;
+  margin-top: auto;
+}
+
+.gameInfo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: rgba(82, 41, 94, 0.4);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transform: translateX(-100%);
+  opacity: 0;
+  transition: transform 0.3s ease, opacity 0.3s;
+}
+.gameInfo .gameDeveloper {
+  font-size: 18px;
+  margin: 10px;
+}
+.gameInfo .gameCategory {
+  font-size: 18px;
+  margin: 10px;
+}
+.gameInfo .gameDescription {
+  font-size: 16px;
+  margin: 10px;
+}
+.gameInfo .gameVotes {
+  font-size: 18px;
+  margin: 10px;
+}/*# sourceMappingURL=gamecard.module.css.map */
