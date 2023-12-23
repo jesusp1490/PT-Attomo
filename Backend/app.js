@@ -4,8 +4,6 @@ const dotenv = require('dotenv');
 const connectDB = require('./src/utils/db');
 const gameRoutes = require('./src/api/routes/gameRoutes');
 const userRoutes = require('./src/api/routes/userRoutes');
-
-import * as dotenv from 'dotenv';
 dotenv.config();
 const cors = require('cors');
 const app = express();

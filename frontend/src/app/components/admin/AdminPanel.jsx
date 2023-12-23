@@ -56,7 +56,6 @@ const AdminPanel = () => {
             {games.map(game => (
                 <div key={game._id}>
                     <h2>{game.nombre}</h2>
-                    {/* Más detalles del juego */}
                     <button onClick={() => handleEditGame(game._id, game)}>Editar</button>
                     <button onClick={() => handleDeleteGame(game._id)}>Eliminar</button>
                 </div>

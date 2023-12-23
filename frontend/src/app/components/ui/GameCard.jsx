@@ -1,5 +1,6 @@
 import React from 'react';
 import styles from '../../styles/gamecard.module.scss'; 
+import VoteButton from './VoteButton';
 
 const GameCard = ({ game, onVote }) => {
     return (
@@ -11,7 +12,7 @@ const GameCard = ({ game, onVote }) => {
                 <p className={styles.gameDescription}>{game.descripcion}</p> 
                 <p className={styles.gameCategory}>Categoría: {game.categoria}</p> 
                 <p className={styles.gameVotes}>Votos: {game.votos}</p> 
-                <button onClick={() => onVote(game._id)}>Votar</button>
+                <VoteButton gameId={game._id} onVote={onVote} />
             </div>
         </div>
     );

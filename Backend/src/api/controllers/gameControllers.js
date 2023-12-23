@@ -1,8 +1,6 @@
 const Game = require('../models/Games');
 const User = require('../models/User');
 
-
-const JWT_SECRET = process.env.JWT_SECRET_KEY
 //GET 
 const getGames = async (req, res) => {
     try {

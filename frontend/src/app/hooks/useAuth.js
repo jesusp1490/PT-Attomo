@@ -13,13 +13,10 @@ export const AuthProvider = ({ children }) => {
         console.log("Token en AuthProvider:", token);
 
         if (token) {
-            // Decodificar el token si es necesario
             console.log("Token encontrado en AuthProvider");
-
-            // Establecer el token directamente en el header de las solicitudes axios
+            // Establecemos el token directamente en el header
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-
-            // Obtener los datos del usuario aquí
+            // Obtenemos los datos del usuario aquí
             axios.get('http://localhost:5000/users/profile')
                 .then((response) => {
                     const userData = response.data;

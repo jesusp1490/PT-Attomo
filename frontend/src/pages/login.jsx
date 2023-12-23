@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { useAuth } from '../app/hooks/useAuth';
 import styles from '../app/styles/login.module.scss'; 
-
+import MainButton from '../app/components/ui/MainButton';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -53,9 +53,7 @@ const Login = () => {
                         placeholder="Contraseña"
                         className={styles.loginInput}
                     />
-                    <button type="submit" className={styles.loginButton}>
-                        Iniciar Sesión
-                    </button>
+                    <MainButton text="Iniciar Sesión" onClick={handleLogin} />
                 </form>
             </div>
         </div>

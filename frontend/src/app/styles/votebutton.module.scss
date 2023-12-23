@@ -1,0 +1,18 @@
+.voteButton {
+    width: 100px;
+    height: 50px;
+    border: none;
+    border-radius: 40px;
+    background-color: #66347F;
+    outline: none;
+    cursor: pointer;
+    font-size: 1.3em;
+    font-weight: 700;
+    color: white;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.voteButton:hover {
+    background-color: #7f5395;
+}

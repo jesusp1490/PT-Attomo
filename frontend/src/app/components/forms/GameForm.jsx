@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import styles from '../../styles//gameform.module.scss'; 
+import styles from '../../styles/gameform.module.scss'; 
 
 const GameForm = ({ onGameAdded }) => {
     const [gameData, setGameData] = useState({

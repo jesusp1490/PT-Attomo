@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
 import styles from '../app/styles/register.module.scss'; 
+import VoteButton from '@/app/components/ui/VoteButton';
+import MainButton from '@/app/components/ui/MainButton';
 
 const Register = () => {
     const [userData, setUserData] = useState({
@@ -77,9 +79,7 @@ const Register = () => {
                         placeholder="Contraseña"
                         className={styles.registerInput}
                     />
-                    <button type="submit" className={styles.registerButton}>
-                        Registrarse
-                    </button>
+                    <MainButton text="Registraece" onClick={handleSubmit} />
                 </form>
             </div>
         </div>

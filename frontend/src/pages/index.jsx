@@ -25,7 +25,6 @@ const HomePage = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
         if (token) {
-            // Hacer una solicitud al servidor para obtener los datos del usuario
             const fetchUserData = async () => {
                 try {
                     const response = await axios.get('http://localhost:5000/users/profile', {
@@ -46,7 +45,6 @@ const HomePage = () => {
     }, [user]);
 
     const userId = user ? user._id : null;
-    
     const handleVote = async (gameId) => {
         try {
             const response = await axios.post('http://localhost:5000/games/vote', {
@@ -55,11 +53,9 @@ const HomePage = () => {
             });
 
             if (response.data.success) {
-                
                 const updatedGames = games.map((game) => {
                     if (game._id === gameId) {
-                        // Incrementa el contador de votos en 1
-                        return { ...game, votos: game.votos + 1 }; 
+                        return { ...game, votos: game.votos + 1 };
                     }
                     return game;
                 });
@@ -75,7 +71,7 @@ const HomePage = () => {
             alert('Error al votar');
         }
     };
-
+    
     return (
         <div>
             <div className={styles.gameGrid}>
