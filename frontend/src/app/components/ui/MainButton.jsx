@@ -2,10 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import mainButtonStyles from '../../styles/mainbutton.module.scss'; 
 
-const MainButton = ({ text, onClick }) => {
-
+const MainButton = ({ text, type }) => {
     return (
-        <button className={mainButtonStyles.mainButton} onClick={onClick}>
+        <button className={mainButtonStyles.mainButton} type={type}>
             {text}
         </button>
     );
@@ -13,7 +12,7 @@ const MainButton = ({ text, onClick }) => {
 
 MainButton.propTypes = {
     text: PropTypes.string.isRequired,
-    onClick: PropTypes.func,
+    type: PropTypes.string,  
 };
 
 export default MainButton;

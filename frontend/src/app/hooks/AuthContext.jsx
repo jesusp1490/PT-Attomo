@@ -18,21 +18,22 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await axios.get('http://localhost:5000/users/profile');
             if (response.data) {
-                setUser(response.data); // Asegúrate de que response.data sea un objeto
+                setUser(response.data); 
             } else {
-                setUser(null); // O mantenerlo como un objeto vacío {}
+                setUser(null); 
             }
         } catch (error) {
             console.error('Error al obtener los datos del usuario:', error);
-            setUser(null); // O mantenerlo como un objeto vacío {}
+            setUser(null); 
         }
     };
 
     const login = (token, userInfo) => {
         localStorage.setItem('token', token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        setUser(userInfo); // Actualiza el estado del usuario con la información recibida
-    };;
+        setUser(userInfo); 
+    };
+
 
     const logout = () => {
         localStorage.removeItem('token');

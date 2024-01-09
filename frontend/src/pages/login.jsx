@@ -16,15 +16,15 @@ const Login = () => {
             const response = await axios.post('http://localhost:5000/users/login', { email, password });
 
             if (response.data.success) {
-                login(response.data.token, response.data.userInfo);
-                router.push('/'); // Redirige al HomePage o a la página que desees
+                login(response.data.token, response.data.userInfo); 
+                router.push('/'); 
             } else {
-                // Manejar el caso de inicio de sesión fallido
+                
                 console.log('Inicio de sesión fallido:', response.data.message);
             }
         } catch (error) {
             console.error("Error en el inicio de sesión:", error);
-            // Manejar error
+            
         }
     };
 

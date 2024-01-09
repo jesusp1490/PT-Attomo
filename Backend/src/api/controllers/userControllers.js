@@ -12,17 +12,18 @@ const registerUser = async (req, res) => {
         const valEmail = await validateEmailDB(req.body.email)
         if (!valEmail) {
             if (validatePassword(req.body.password)) {
-                userBody.password = bycrypt.hashSync(userBody.password, 10)
-                const createduser = await userBody.save();
-                return res.json({ success: true, message: "Agregado con exito", data: createduser })
+                userBody.password = bcrypt.hashSync(userBody.password, 10)  
+                const createdUser = await userBody.save();
+                return res.json({ success: true, message: "Agregado con éxito", data: createdUser })
             } else {
-                return res.json({ success: false, message: "La contraseña no cumple con el patron" })
+                return res.json({ success: false, message: "La contraseña no cumple con el patrón" })
             }
         }
         return res.json({ success: false, message: "Email ya existe" })
 
     } catch (error) {
-
+        console.error('Error en registerUser:', error);
+        return res.status(500).json({ success: false, message: "Error del servidor", error: error.message });
     }
 }
 
@@ -35,14 +36,22 @@ const loginUser = async (req, res) => {
             return res.status(401).json({ success: false, message: "Email o contraseña inválidos" });
         }
         const token = generateToken(userDB._id, userDB.email);
-        // Asegúrate de no enviar información sensible del usuario
-        const userInfo = { id: userDB._id, email: userDB.email, username: userDB.username };
+
+        const userInfo = {
+            id: userDB._id,
+            email: userDB.email,
+            username: userDB.username,
+            name: userDB.name,      
+            surname: userDB.surname 
+        };
+
         return res.json({ success: true, message: "Login realizado", token: token, userInfo: userInfo });
     } catch (error) {
         console.error('Error en loginUser:', error);
         return res.status(500).json({ success: false, message: "Error del servidor" });
     }
 };
+
 
 
 //PUT
@@ -70,8 +79,24 @@ const updateUser = async (req, res) => {
 
 const getUserProfile = async (req, res) => {
     try {
-        const { password, ...userData } = req.user.toObject(); 
-        res.status(200).json(userData);
+        const user = await User.findById(req.user.id).populate('votedGames');
+        if (!user) {
+            return res.status(404).json({ message: "Usuario no encontrado" });
+        }
+
+        const userProfile = {
+            username: user.username,
+            email: user.email,
+            name: user.name,
+            surname: user.surname,
+            votedGames: user.votedGames.map(game => ({
+                nombre: game.nombre,
+                imagen: game.imagen,
+
+            })),
+        };
+
+        res.json(userProfile);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

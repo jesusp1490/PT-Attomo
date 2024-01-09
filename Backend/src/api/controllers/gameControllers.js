@@ -104,6 +104,9 @@ const getGameByCategory = async (req, res) => {
 const voteForGame = async (req, res) => {
     const { userId, gameId } = req.body;
 
+    console.log('userId:', userId);
+    console.log('gameId:', gameId);
+    
     try {
         const user = await User.findById(userId);
         const game = await Game.findById(gameId);

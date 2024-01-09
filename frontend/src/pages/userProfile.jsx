@@ -1,14 +1,16 @@
 import React, { useEffect, useContext } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import { useAuth } from '../app/hooks/AuthContext'; // Asegúrate de que el hook se importa correctamente
+import { useAuth } from '../app/hooks/AuthContext'; 
+import GameCard from '../app/components/ui/GameCard';
 import styles from '../app/styles/userprofile.module.scss';
 
 const UserProfile = () => {
-    const { user, logout } = useAuth(); // Utiliza el hook useAuth
+    const { user, logout } = useAuth(); 
     const router = useRouter();
 
     useEffect(() => {
+        console.log("Datos del usuario:", user);
         if (!user) {
             router.push('/login');
         }
@@ -33,6 +35,20 @@ const UserProfile = () => {
                 <p>Email: {user.email}</p>
                 <button onClick={handleLogout} className={styles.logoutButton}>Cerrar sesión</button>
             </>
+            <div>
+                <h2>Juegos Favoritos</h2>
+                {
+                    user && user.votedGames && user.votedGames.map((game) => (
+                        <GameCard
+                            key={game._id}
+                            game={game}
+                            onVote={() => { }}
+                            showVoteButton={false}
+                            user={user}
+                        />
+                    ))
+                }
+            </div>
         </div>
     );
 };

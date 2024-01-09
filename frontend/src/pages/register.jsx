@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useRouter } from 'next/router';
-import styles from '../app/styles/register.module.scss'; 
-import VoteButton from '@/app/components/ui/VoteButton';
-import MainButton from '@/app/components/ui/MainButton';
+import styles from '../app/styles/register.module.scss';
+import MainButton from '../app/components/ui/MainButton';
+import mainButtonStyles from '../app/styles/mainbutton.module.scss';
 
 const Register = () => {
     const [userData, setUserData] = useState({
-        name: '',
-        surname: '',
+        name: '',  
+        surname: '',  
         username: '',
         email: '',
         password: '',
@@ -27,7 +27,7 @@ const Register = () => {
                 router.push('/login');
             } else {
                 console.error('Registration failed', response.data.message);
-                alert('REGISTRATION FAILED! Make sure all fields are correctly filled and try again. REMEMBER THAT YOUR PASSWORD MUST CONTAIN AN UPPERCASE CHARACTER, A LOWERCASE CHARACTER, ONE OF THESE CHARACTERS: $@$!%*?&, AND MUST BE BETWEEN 8 AND 15 CHARACTERS LONG.');
+                alert('REGISTRATION FAILED! ' + response.data.message);
             }
         } catch (error) {
             console.error('Error:', error);
@@ -46,7 +46,7 @@ const Register = () => {
                 <h1>¡Regístrate!</h1>
                 <form className={styles.registerForm} onSubmit={handleSubmit}>
                     <input
-                        name="nombre"
+                        name="name"
                         type="text"
                         value={userData.nombre}
                         onChange={handleChange}
@@ -55,7 +55,7 @@ const Register = () => {
                         className={styles.registerInput}
                     />
                     <input
-                        name="apellido"
+                        name="surname"
                         type="text"
                         value={userData.apellido}
                         onChange={handleChange}
@@ -90,7 +90,9 @@ const Register = () => {
                         placeholder="Contraseña"
                         className={styles.registerInput}
                     />
-                    <MainButton text="Registrarse" onClick={handleSubmit} />
+                    <button type="submit" className={mainButtonStyles.mainButton}>
+                        Registrarse
+                    </button>
                 </form>
             </div>
         </div>
