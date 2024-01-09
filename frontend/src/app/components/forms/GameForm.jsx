@@ -1,89 +1,101 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from '../../styles/gameform.module.scss'; 
+import styles from '../../styles/gameform.module.scss';
 
-const GameForm = ({ onGameAdded }) => {
+const GameForm = ({ game, fetchGames }) => {
     const [gameData, setGameData] = useState({
         nombre: '',
         imagen: '',
         desarrollador: '',
-        category: '',
-        description: '',
+        categoria: '',
+        descripcion: '',
     });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post('http://localhost:5000/games', gameData);
-            onGameAdded(response.data);
-            setGameData({
-                nombre: '',
-                imagen: '',
-                desarrollador: '',
-                category: '',
-                description: '',
-            });
-        } catch (error) {
-            console.error('Error al añadir el juego:', error);
+    useEffect(() => {
+        if (game) {
+            setGameData({ ...game });
         }
-    };
+    }, [game]);
 
     const handleChange = (e) => {
         setGameData({ ...gameData, [e.target.name]: e.target.value });
     };
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            if (game) {
+                await axios.put(`http://localhost:5000/games/${game._id}`, gameData);
+            } else {
+                await axios.post('http://localhost:5000/games', gameData);
+            }
+            fetchGames();
+            setGameData({
+                nombre: '',
+                imagen: '',
+                desarrollador: '',
+                categoria: '',
+                descripcion: '',
+            });
+        } catch (error) {
+            console.error('Error al gestionar el juego:', error);
+        }
+    };
+
     return (
-        <div className={styles.gameFormContainer}>
-            <h1>Añadir Juego</h1>
-            <form onSubmit={handleSubmit} className={styles.gameForm}>
-                <input
-                    type="text"
-                    name="nombre"
-                    value={gameData.nombre}
-                    onChange={handleChange}
-                    placeholder="Nombre del juego"
-                    required
-                    className={styles.gameInput}
-                />
-                <input
-                    type="text"
-                    name="imagen"
-                    value={gameData.imagen}
-                    onChange={handleChange}
-                    placeholder="URL de la imagen"
-                    required
-                    className={styles.gameInput}
-                />
-                <input
-                    type="text"
-                    name="desarrollador"
-                    value={gameData.desarrollador}
-                    onChange={handleChange}
-                    placeholder="Desarrollador del juego"
-                    required
-                    className={styles.gameInput}
-                />
-                <input
-                    type="text"
-                    name="category"
-                    value={gameData.category}
-                    onChange={handleChange}
-                    placeholder="Categoría del juego"
-                    required
-                    className={styles.gameInput}
-                />
-                <textarea
-                    name="description"
-                    value={gameData.description}
-                    onChange={handleChange}
-                    placeholder="Descripción del juego"
-                    required
-                    className={styles.gameTextarea}
-                />
-                <button type="submit" className={styles.gameButton}>
-                    Añadir Juego
-                </button>
-            </form>
+        <div className={styles.gameFormContainer}> 
+            <div className={styles.formCard}> 
+                <h1>¡Administra Juegos!</h1> 
+                <form className={styles.gameForm} onSubmit={handleSubmit}> 
+                    <input
+                        name="nombre"
+                        type="text"
+                        value={gameData.nombre}
+                        onChange={handleChange}
+                        required
+                        placeholder="Nombre del juego"
+                        className={styles.gameInput} 
+                    />
+                    <input
+                        name="imagen"
+                        type="text"
+                        value={gameData.imagen}
+                        onChange={handleChange}
+                        required
+                        placeholder="URL de la imagen"
+                        className={styles.gameInput} 
+                    />
+                    <input
+                        name="desarrollador"
+                        type="text"
+                        value={gameData.desarrollador}
+                        onChange={handleChange}
+                        required
+                        placeholder="Desarrollador del juego"
+                        className={styles.gameInput} 
+                    />
+                    <input
+                        name="categoria"
+                        type="text"
+                        value={gameData.categoria}
+                        onChange={handleChange}
+                        required
+                        placeholder="Categoría del juego"
+                        className={styles.gameInput} 
+                    />
+                    <textarea
+                        name="descripcion"
+                        value={gameData.descripcion}
+                        onChange={handleChange}
+                        required
+                        placeholder="Descripción del juego"
+                        className={styles.gameInput}
+                    />
+                    <button type="submit" className={styles.gameButton}> 
+                        {game ? 'Actualizar Juego' : 'Agregar Juego'}
+                    </button>
+                </form>
+            </div>
         </div>
     );
 };

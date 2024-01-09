@@ -1,0 +1,106 @@
+/* Importa las fuentes */
+@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&display=swap');
+
+/* Estilos para el contenedor principal */
+.adminPanelContainer {
+    background: linear-gradient(135deg, #37306B, #66347F);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    min-height: 100vh;
+    background-position: center;
+    background-size: cover;
+    font-family: 'Montserrat', sans-serif;
+    color: aliceblue;
+    padding: 20px;
+    gap: 20px;
+}
+
+.adminPanelContainer h1 {
+    font-size: 2em;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.leftPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.rightPanel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.addGameButton {
+    width: 200px;
+    height: 40px;
+    border: none;
+    border-radius: 40px;
+    background-color: #66347F;
+    outline: none;
+    cursor: pointer;
+    font-size: 1.3em;
+    font-weight: 700;
+    color: white;
+    margin-top: 20px;
+    transition: background-color 0.3s;
+}
+
+.addGameButton:hover {
+    background-color: #7f5395;
+}
+
+/* Estilos para la lista de juegos */
+.gameList {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* Cambiar a 4 para 4 columnas */
+    grid-gap: 20px;
+    margin-top: 20px;
+}
+
+.gameCard {
+    background-color: #66347F;
+    border-radius: 10px;
+    padding: 20px;
+    color: white;
+    margin-bottom: 20px;
+    box-sizing: border-box;
+}
+
+.gameCard h2 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+}
+
+.buttonContainer {
+    display: flex;
+    gap: 10px;
+}
+
+.editButton,
+.deleteButton {
+    width: 90px;
+    height: 40px;
+    background-color: #7f5395;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2em;
+    color: white;
+    margin-bottom: 5px;
+}
+
+.editButton:hover,
+.deleteButton:hover {
+    background-color: #9155a3;
+}

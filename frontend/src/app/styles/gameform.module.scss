@@ -1,20 +1,16 @@
-/* GameForm.module.scss */
+@import url('https://fonts.googleapis.com/css2?family=Afacad:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,300&display=swap');
 
 .gameFormContainer {
-    background: linear-gradient(135deg, #37306B, #66347F);
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    background-position: center;
-    background-size: cover;
     font-family: 'Montserrat', sans-serif;
     color: aliceblue;
 }
 
 .gameForm {
-    width: 500px;
-    height: 600px;
+    width: 600px;
+    height: 700px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -23,7 +19,7 @@
     background: linear-gradient(135deg, #66347F, #37306B);
 }
 
-.gameFormContainer:hover .gameForm {
+.gameForm:hover {
     border: 2px solid #7f5395;
 }
 
@@ -37,8 +33,8 @@
 .gameInput {
     width: 300px;
     height: 40px;
-    margin: 10px 0;
-    border-bottom: 1px solid red;
+    margin: 20px 0;
+    border-bottom: 2px solid #7f5395;
     border-top: none;
     border-right: none;
     border-left: none;
@@ -47,7 +43,6 @@
     font-size: 1rem;
     color: whitesmoke;
     outline: none;
-    transition: border-color 0.3s;
 }
 
 .gameInput:focus {
@@ -57,8 +52,8 @@
 .gameTextarea {
     width: 300px;
     height: 120px;
-    margin: 10px 0;
-    border-bottom: 1px solid red;
+    margin: 20px 0;
+    border-bottom: 2px solid #7f5395;
     border-top: none;
     border-right: none;
     border-left: none;
@@ -67,7 +62,6 @@
     font-size: 1rem;
     color: whitesmoke;
     outline: none;
-    transition: border-color 0.3s;
 }
 
 .gameTextarea:focus {

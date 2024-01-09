@@ -8,7 +8,10 @@ const JWT_SECRET = `${process.env.JWT_SECRET_KEY}`
 //REGISTER
 const registerUser = async (req, res) => {
     try {
-        const userBody = new User(req.body)
+        const userBody = new User({
+            ...req.body,
+            votedGames: [] // Inicializar votedGames como un arreglo vacío
+        });
         const valEmail = await validateEmailDB(req.body.email)
         if (!valEmail) {
             if (validatePassword(req.body.password)) {
@@ -41,8 +44,10 @@ const loginUser = async (req, res) => {
             id: userDB._id,
             email: userDB.email,
             username: userDB.username,
-            name: userDB.name,      
-            surname: userDB.surname 
+            name: userDB.name,
+            surname: userDB.surname,
+            role: userDB.role,
+            votedGames: userDB.votedGames || [] 
         };
 
         return res.json({ success: true, message: "Login realizado", token: token, userInfo: userInfo });
@@ -84,19 +89,16 @@ const getUserProfile = async (req, res) => {
             return res.status(404).json({ message: "Usuario no encontrado" });
         }
 
-        const userProfile = {
-            username: user.username,
+        const userInfo = {
+            id: user._id,
             email: user.email,
+            username: user.username,
             name: user.name,
             surname: user.surname,
-            votedGames: user.votedGames.map(game => ({
-                nombre: game.nombre,
-                imagen: game.imagen,
-
-            })),
+            votedGames: user.votedGames || [] 
         };
 
-        res.json(userProfile);
+        return res.json(userInfo);
     } catch (error) {
         res.status(500).json({ message: error.message });
     }

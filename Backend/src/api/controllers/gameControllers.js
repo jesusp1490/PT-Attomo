@@ -53,7 +53,7 @@ const updateGame = async (req, res) => {
         if (req.body.desarrollador) game.desarrollador = req.body.desarrollador;
         if (req.body.categoria) game.categoria = req.body.categoria;
         if (req.body.descripcion) game.descripcion = req.body.descripcion;
-        if (req.body.votos) game.votes = req.body.votos;
+        if (req.body.votos) game.votos = req.body.votos;
 
         await game.save();
         res.json(game);
@@ -104,9 +104,6 @@ const getGameByCategory = async (req, res) => {
 const voteForGame = async (req, res) => {
     const { userId, gameId } = req.body;
 
-    console.log('userId:', userId);
-    console.log('gameId:', gameId);
-    
     try {
         const user = await User.findById(userId);
         const game = await Game.findById(gameId);
@@ -115,8 +112,14 @@ const voteForGame = async (req, res) => {
             return res.status(404).json({ message: "Usuario o juego no encontrado" });
         }
 
-        if (user.votedGames.includes(gameId) || user.votedGames.length >= 5) {
-            return res.status(400).json({ message: "No se puede votar por este juego" });
+        // Verificar si el usuario ya ha votado por este juego
+        if (user.votedGames.includes(gameId)) {
+            return res.status(400).json({ message: "Ya has votado por este juego" });
+        }
+
+        // Verificar si el usuario ha alcanzado el límite de 5 votos
+        if (user.votedGames.length >= 5) {
+            return res.status(400).json({ message: "Has alcanzado el límite de 5 votos" });
         }
 
         user.votedGames.push(gameId);
@@ -125,11 +128,12 @@ const voteForGame = async (req, res) => {
         await user.save();
         await game.save();
 
-        res.json({ message: "Voto registrado con éxito", game });
+        res.json({ success: true, message: "Voto registrado con éxito", game });
     } catch (error) {
         res.status(500).json({ message: "Error al procesar la votación" });
     }
 };
+
 
 
 module.exports = { getGames, newGame, deleteGame, updateGame, getGameByName, getGameById, getGameByCategory, voteForGame };

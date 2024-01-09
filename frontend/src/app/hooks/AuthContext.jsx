@@ -18,22 +18,24 @@ export const AuthProvider = ({ children }) => {
         try {
             const response = await axios.get('http://localhost:5000/users/profile');
             if (response.data) {
-                setUser(response.data); 
+                setUser(response.data);
             } else {
-                setUser(null); 
+                setUser(null);
             }
         } catch (error) {
             console.error('Error al obtener los datos del usuario:', error);
-            setUser(null); 
+            setUser(null);
         }
     };
 
     const login = (token, userInfo) => {
         localStorage.setItem('token', token);
         axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-        setUser(userInfo); 
+        setUser({
+            ...userInfo,
+            votedGames: userInfo.votedGames || [], // Inicializa votedGames si es undefined
+        });
     };
-
 
     const logout = () => {
         localStorage.removeItem('token');

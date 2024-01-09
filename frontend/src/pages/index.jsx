@@ -6,7 +6,7 @@ import { useAuth } from '../app/hooks/AuthContext';
 
 const HomePage = () => {
     const [games, setGames] = useState([]);
-    const { user } = useAuth();
+    const { user, login } = useAuth(); // Asegurarse de que se esté utilizando el usuario y la función de inicio de sesión correctamente
 
     useEffect(() => {
         const fetchGames = async () => {
@@ -22,52 +22,40 @@ const HomePage = () => {
     }, []);
 
     const handleVote = async (gameId) => {
-        console.log("handleVote invocado con gameId:", gameId);
-        if (!user) {
-            alert('Debes iniciar sesión para votar.');
+        console.log("Usuario actual:", user);
+
+        // Asegurarse de que el usuario esté autenticado
+        if (!user || !user.id) {
+            alert('Debes estar registrado y haber iniciado sesión para votar.');
             return;
         }
 
         try {
             const response = await axios.post('http://localhost:5000/games/vote', {
-                userId: user._id, // Asegurarse de que user._id esté disponible
+                userId: user.id, // Utilizar user.id en lugar de user._id
                 gameId,
             });
 
             if (response.data.success) {
-                // Actualizar el estado de los juegos con los nuevos votos
-                const updatedGames = games.map((game) => {
-                    if (game._id === gameId) {
-                        // Aumentar en uno los votos del juego votado
-                        return { ...game, votos: game.votos + 1 };
-                    }
-                    return game;
-                });
+                // Actualizar el estado de los juegos
+                setGames(games.map(game => game._id === gameId ? { ...game, votos: game.votos + 1 } : game));
 
-                setGames(updatedGames);
+                // Actualizar el estado del usuario (si es necesario)
+                login(user.token, user); // Utilizar la función de inicio de sesión para actualizar el estado del usuario
+
                 alert('Voto registrado con éxito');
-            } else {
-                // Manejar la respuesta en caso de que la votación no sea exitosa
-                alert(response.data.message);
             }
         } catch (error) {
-            // Manejar errores en la solicitud
             console.error('Error al votar:', error);
-            alert('Error al votar. Por favor, intenta nuevamente.');
+            alert('Error al votar');
         }
     };
 
     return (
         <div>
             <div className={styles.gameGrid}>
-                {games.map((game) => (
-                    <GameCard
-                        key={game._id}
-                        game={game}
-                        onVote={handleVote}
-                        showVoteButton={!!user}
-                        user={user}
-                    />
+                {games.map(game => (
+                    <GameCard key={game._id} game={game} onVote={handleVote} showVoteButton={!!user} user={user} />
                 ))}
             </div>
             {user ? (

@@ -8,7 +8,7 @@ router.get('/:id', getGameById);
 router.get('/name/:nombre', getGameByName);
 router.get('/category/:categoria', getGameByCategory);
 router.post('/', newGame);
-router.post('/vote', voteForGame);
+router.post('/vote', isAuth, voteForGame);
 router.put('/:id', updateGame);
 router.delete('/:id', deleteGame);
 

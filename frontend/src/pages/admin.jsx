@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import AdminPanel from '../app/components/admin/AdminPanel';
-import { useAuth } from '../app/hooks/useAuth'; 
+import { useAuth } from '../app/hooks/AuthContext'; 
 
 const AdminPage = () => {
     const { user } = useAuth(); 
