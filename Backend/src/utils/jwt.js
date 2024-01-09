@@ -1,13 +1,13 @@
 const jwt = require("jsonwebtoken");
 
-const JWT_SECRET = process.env.JWT_SECRET;
+const generateToken = (id, email) => {
+    const secret = process.env.JWT_SECRET;
+    console.log('Secret in generateToken:', secret); // Agrega esto para depurar
+    return jwt.sign({ id, email }, secret, { expiresIn: '1h' });
+}
 
 const verifyToken = (token) => {
-    return jwt.verify(token, JWT_SECRET);
+    return jwt.verify(token, process.env.JWT_SECRET);
 }
 
-const generateToken = (id, email) => {
-    return jwt.sign({ id, email }, JWT_SECRET, { expiresIn: '1h' });
-}
-
-module.exports = { generateToken, verifyToken };
+module.exports = { generateToken, verifyToken }

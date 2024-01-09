@@ -7,8 +7,8 @@ import MainButton from '@/app/components/ui/MainButton';
 
 const Register = () => {
     const [userData, setUserData] = useState({
-        nombre: '',
-        apellido: '',
+        name: '',
+        surname: '',
         username: '',
         email: '',
         password: '',
@@ -17,17 +17,28 @@ const Register = () => {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+
         try {
             const response = await axios.post('http://localhost:5000/users/register', userData);
-            router.push('/login'); 
+
+            if (response.data.success) {
+                console.log('Registration successful', response.data.message);
+                alert('REGISTRATION SUCCESSFUL!! You can now log in.');
+                router.push('/login');
+            } else {
+                console.error('Registration failed', response.data.message);
+                alert('REGISTRATION FAILED! Make sure all fields are correctly filled and try again. REMEMBER THAT YOUR PASSWORD MUST CONTAIN AN UPPERCASE CHARACTER, A LOWERCASE CHARACTER, ONE OF THESE CHARACTERS: $@$!%*?&, AND MUST BE BETWEEN 8 AND 15 CHARACTERS LONG.');
+            }
         } catch (error) {
-            console.error('Error durante el registro:', error);
+            console.error('Error:', error);
+            alert('An error occurred during registration.');
         }
     };
 
     const handleChange = (e) => {
         setUserData({ ...userData, [e.target.name]: e.target.value });
     };
+
 
     return (
         <div className={styles.registerContainer}>
@@ -79,7 +90,7 @@ const Register = () => {
                         placeholder="Contraseña"
                         className={styles.registerInput}
                     />
-                    <MainButton text="Registraece" onClick={handleSubmit} />
+                    <MainButton text="Registrarse" onClick={handleSubmit} />
                 </form>
             </div>
         </div>

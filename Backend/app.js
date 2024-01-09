@@ -5,6 +5,10 @@ const connectDB = require('./src/utils/db');
 const gameRoutes = require('./src/api/routes/gameRoutes');
 const userRoutes = require('./src/api/routes/userRoutes');
 dotenv.config();
+console.log('JWT_SECRET:', process.env.JWT_SECRET);
+const { generateToken } = require('./src/utils/jwt');
+console.log('Test JWT:', generateToken('123', 'test@example.com'));
+
 const cors = require('cors');
 const app = express();
 

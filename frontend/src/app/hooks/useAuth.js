@@ -14,37 +14,39 @@ export const AuthProvider = ({ children }) => {
 
         if (token) {
             console.log("Token encontrado en AuthProvider");
-            // Establecemos el token directamente en el header
             axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
-            // Obtenemos los datos del usuario aquí
-            axios.get('http://localhost:5000/users/profile')
-                .then((response) => {
-                    const userData = response.data;
-                    console.log("Usuario en AuthProvider:", userData);
-                    setUser(userData);
-                })
-                .catch((error) => {
-                    console.error('Error al obtener los datos del usuario:', error);
-                });
+            fetchUserData();
         }
     }, []);
+
+    const fetchUserData = async () => {
+        try {
+            const response = await axios.get('http://localhost:5000/users/profile');
+            console.log("Datos del usuario obtenidos:", response.data); 
+            setUser(response.data);
+        } catch (error) {
+            console.error('Error al obtener los datos del usuario:', error);
+        }
+    };
+
 
     const login = async (email, password) => {
         try {
             const response = await axios.post('http://localhost:5000/users/login', { email, password });
             if (response.data.token) {
                 localStorage.setItem('token', response.data.token);
-
-                console.log("Usuario en HomePage:", user);
+                axios.defaults.headers.common['Authorization'] = `Bearer ${response.data.token}`;
+                fetchUserData(); 
             }
         } catch (error) {
-            console.error('Error durante el login:', error);
+            console.error('Error durante el login:', error.response ? error.response.data : error);
         }
     };
 
     const logout = () => {
         localStorage.removeItem('token');
-  
+        setUser(null);
+        delete axios.defaults.headers.common['Authorization'];
     };
 
     return (

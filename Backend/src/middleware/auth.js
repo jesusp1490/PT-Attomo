@@ -1,21 +1,29 @@
-const jwt = require('jsonwebtoken');
-const User = require('../api/models/User');
+const { verifyToken } = require("../utils/jwt");
+const User = require("../api/models/User");
 
-const JWT_SECRET = `${process.env.JWT_SECRET_KEY}`;
-
-const authenticate = async (req, res, next) => {
+const isAuth = async (req, res, next) => {
     try {
-        const token = req.headers.authorization.split(' ')[1]; 
-        const decoded = jwt.verify(token, JWT_SECRET);
-        const user = await User.findById(decoded.userId);
-        if (!user) {
-            throw new Error('No se pudo encontrar el usuario');
+        const auth = req.headers.authorization;
+        if (!auth) {
+            return res.status(401).json({ message: "No autorizado: No hay token" });
         }
-        req.user = user; 
+
+        const token = auth.split(" ")[1];
+        const tokenVerified = verifyToken(token);
+        if (!tokenVerified.id) {
+            return res.status(401).json({ message: "No autorizado", error: tokenVerified });
+        }
+
+        const userProfile = await User.findById(tokenVerified.id);
+        if (!userProfile) {
+            return res.status(401).json({ message: "No autorizado: Usuario no encontrado" });
+        }
+
+        req.userProfile = userProfile;
         next();
     } catch (error) {
-        res.status(401).json({ message: 'Autenticación fallida' });
+        res.status(500).json({ message: "Error interno del servidor", error: error.message });
     }
-};
+}
 
-module.exports = authenticate;
+module.exports = { isAuth };
