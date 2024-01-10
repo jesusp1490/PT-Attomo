@@ -4,7 +4,17 @@ const User = require('../models/User');
 //GET 
 const getGames = async (req, res) => {
     try {
-        const games = await Game.find();
+        let query = {};
+        if (req.query.name) {
+            query.nombre = { $regex: req.query.name, $options: "i" };
+        }
+        if (req.query.votes) {
+            const votes = parseInt(req.query.votes);
+            if (!isNaN(votes)) {
+                query.votos = { $gte: votes };
+            }
+        }
+        const games = await Game.find(query);
         res.json(games);
     } catch (error) {
         res.status(500).json({ error: error.message });

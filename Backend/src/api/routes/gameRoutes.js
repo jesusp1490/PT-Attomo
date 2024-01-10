@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const upload = require("../../middleware/upload.file");
+const { isAuth } = require('../../middleware/auth');
 const { getGames, newGame, deleteGame, updateGame, getGameByName, getGameById, getGameByCategory, voteForGame } = require('../controllers/gameControllers');
 
 router.get('/', getGames);
